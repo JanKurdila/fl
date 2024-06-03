@@ -1,4 +1,5 @@
 import pygame
+import random
 
 ROZLISENIE = (500, 700)
 
@@ -11,3 +12,10 @@ VTAK = pygame.image.load('Obrázky/bird1.png')
 
 VTAK_RYCHLOST = 0
 GRAVITACIA = 0.5
+
+# Parametre prekážok
+SIRKA_PREKAZKY = 70
+FARBA_PREKAZKY = pygame.Color(211, 253, 117)
+ZMENA_XOVEJ_SURADNICE_PREKAZKY = -4
+
+VYSKA_PREKAZKY = random.randint(150, 450)
