@@ -7,6 +7,8 @@ if __name__ == "__main__":
     window = pygame.display.set_mode(config.ROZLISENIE)
     pygame.display.set_caption("Flapy bird")
 
+    clock = pygame.time.Clock()
+
     while True:
         # Ak vypnem okno, musím vypnuť pygame
         for event in pygame.event.get():
@@ -14,4 +16,9 @@ if __name__ == "__main__":
                 pygame.quit() # Vypnutie pygamu
                 sys.exit() # Vypnutie celého programu
 
+        window.fill(config.FARBA_POZADIA) # Premazanie obrazovky
+
         pygame.display.update()
+
+        # Spomalenie cyklu
+        clock.tick(config.FPS) # Obnova obrázkov
