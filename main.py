@@ -25,7 +25,7 @@ vtak_rect.y = config.ROZLISENIE[1] // 2
 clock = pygame.time.Clock()
 
 # Rýchlosť vtáka a gravitácia
-rychlost_vtaka = config.VTAK_RYCHLOST
+rychlost_vtaka = 0
 gravitacia = config.GRAVITACIA
 
 # Prekážky
@@ -48,12 +48,20 @@ while True:
             pygame.quit()
             sys.exit()
         if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_SPACE:
+            if event.key == pygame.K_SPACE:  # Ovládanie vtáka smerom nahor popocou medzerníka
                 rychlost_vtaka = config.STEP
 
     # Aplikácia gravitácie
     rychlost_vtaka += gravitacia
     vtak_rect.y += rychlost_vtaka
+
+    # Kontrola, aby vták neprešiel cez hornú alebo spodnú hranu obrazovky
+    if vtak_rect.y < 0:
+        vtak_rect.y = 0
+        rychlost_vtaka = 0
+    elif vtak_rect.y > config.ROZLISENIE[1] - vtak_rect.height:
+        vtak_rect.y = config.ROZLISENIE[1] - vtak_rect.height
+        rychlost_vtaka = 0
 
     # Pohyb prekážky
     pociatocna_suradnica_prekazky += zmena_xovej_suradnice_prekazky
@@ -62,6 +70,7 @@ while True:
         vyska_prekazky = random.randint(150, config.ROZLISENIE[1] - diera - 150)
 
     # Vymazanie obrazovky a vykreslenie pozadia, vtáka a prekážok
+    window.fill((0, 0, 0))  # Vymazanie obrazovky čiernou farbou
     window.blit(pozadie, (0, 0))
     window.blit(vtak, vtak_rect)
     display_obstacles(pociatocna_suradnica_prekazky, vyska_prekazky)
