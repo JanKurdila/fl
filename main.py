@@ -3,6 +3,11 @@ from Config import config
 import sys
 import random
 
+# Funkcia na vykreslenie prekážok
+def display_obstacles(obstacle_x, height):
+    pygame.draw.rect(window, farba_prekazky, (obstacle_x, 0, sirka_prekazky, height))
+    bottom_obstacle_height = config.ROZLISENIE[1] - height - diera
+    pygame.draw.rect(window, farba_prekazky, (obstacle_x, config.ROZLISENIE[1] - bottom_obstacle_height, sirka_prekazky, bottom_obstacle_height))
 
 # Inicializácia Pygame a nastavenia okna
 pygame.init()
@@ -31,12 +36,6 @@ pociatocna_suradnica_prekazky = config.ROZLISENIE[0]
 
 # Konštantná diera medzi prekážkami
 diera = config.DIERA
-
-# Funkcia na vykreslenie prekážok
-def display_obstacles(obstacle_x, height):
-    pygame.draw.rect(window, farba_prekazky, (obstacle_x, 0, sirka_prekazky, height))
-    bottom_obstacle_height = config.ROZLISENIE[1] - height - diera
-    pygame.draw.rect(window, farba_prekazky, (obstacle_x, config.ROZLISENIE[1] - bottom_obstacle_height, sirka_prekazky, bottom_obstacle_height))
 
 # Generovanie počiatočnej výšky prekážky
 vyska_prekazky = random.randint(150, config.ROZLISENIE[1] - diera - 150)

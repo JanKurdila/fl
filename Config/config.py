@@ -7,7 +7,7 @@ ROZLISENIE = (500, 700)
 FPS = 20
 
 
-POZADIE = pygame.image.load('Obrázky/background.jpg')
+POZADIE = pygame.image.load('Obrázky/po.jpg')
 VTAK = pygame.image.load('Obrázky/bird1.png')
 
 VTAK_RYCHLOST = 0
