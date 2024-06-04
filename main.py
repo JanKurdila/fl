@@ -9,6 +9,17 @@ def display_obstacles(obstacle_x, height):
     bottom_obstacle_height = config.ROZLISENIE[1] - height - diera
     pygame.draw.rect(window, farba_prekazky, (obstacle_x, config.ROZLISENIE[1] - bottom_obstacle_height, sirka_prekazky, bottom_obstacle_height))
 
+# Funkcia pre koniec hry
+def game_over():
+    font = pygame.font.Font(None, 74)
+    text = font.render("Game Over", True, (255, 0, 0))
+    text_rect = text.get_rect(center=(config.ROZLISENIE[0] / 2, config.ROZLISENIE[1] / 2))
+    window.blit(text, text_rect)
+    pygame.display.update()
+    pygame.time.wait(2000)  # Čaká 2 sekundy
+    pygame.quit()
+    sys.exit()
+
 # Inicializácia Pygame a nastavenia okna
 pygame.init()
 window = pygame.display.set_mode(config.ROZLISENIE)
@@ -48,7 +59,7 @@ while True:
             pygame.quit()
             sys.exit()
         if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_SPACE:  # Ovládanie vtáka smerom nahor popocou medzerníka
+            if event.key == pygame.K_SPACE:  # Ovládanie vtáka smerom nahor pomocou medzerníka
                 rychlost_vtaka = config.STEP
 
     # Aplikácia gravitácie
@@ -68,6 +79,10 @@ while True:
     if pociatocna_suradnica_prekazky < -sirka_prekazky:
         pociatocna_suradnica_prekazky = config.ROZLISENIE[0]
         vyska_prekazky = random.randint(150, config.ROZLISENIE[1] - diera - 150)
+
+    # Kontrola kolízie vtáka s prekážkami
+    if vtak_rect.colliderect(pygame.Rect(pociatocna_suradnica_prekazky, 0, sirka_prekazky, vyska_prekazky)) or vtak_rect.colliderect(pygame.Rect(pociatocna_suradnica_prekazky, config.ROZLISENIE[1] - (config.ROZLISENIE[1] - vyska_prekazky - diera), sirka_prekazky, config.ROZLISENIE[1] - vyska_prekazky - diera)):
+        game_over()
 
     # Vymazanie obrazovky a vykreslenie pozadia, vtáka a prekážok
     window.fill((0, 0, 0))  # Vymazanie obrazovky čiernou farbou
