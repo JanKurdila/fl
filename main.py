@@ -11,7 +11,7 @@ def display_obstacles(obstacle_x, height):
 
 # Funkcia pre koniec hry
 def game_over():
-    font = pygame.font.Font(None, 74)
+    font = config.FONT
     text = font.render("Game Over", True, (255, 0, 0))
     text_rect = text.get_rect(center=(config.ROZLISENIE[0] / 2, config.ROZLISENIE[1] / 2))
     window.blit(text, text_rect)
