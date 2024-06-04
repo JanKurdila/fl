@@ -1,6 +1,7 @@
 import pygame
 from Config import config
 import sys
+import random
 
 
 # Inicializácia Pygame a nastavenia okna
@@ -35,7 +36,7 @@ def display_obstacle(obstacle_x, height):
     pygame.draw.rect(window, farba_prekazky, (obstacle_x, config.ROZLISENIE[1], sirka_prekazky, -bottom_obstacle_height))
 
 # Generovanie počiatočnej prekážky
-vyska_prekazky = config.VYSKA_PREKAZKY
+vyska_prekazky = random.randint(150, 450)
 
 # Herná slučka
 while True:
@@ -46,7 +47,7 @@ while True:
             sys.exit()
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE:
-                rychlost_vtaka = -10
+                rychlost_vtaka = config.STEP
 
     # Aplikácia gravitácie
     rychlost_vtaka += gravitacia
@@ -56,7 +57,7 @@ while True:
     pociatocna_suradnica_prekazky += zmena_xovej_suradnice_prekazky
     if pociatocna_suradnica_prekazky < -sirka_prekazky:
         pociatocna_suradnica_prekazky = config.ROZLISENIE[0]
-        vyska_prekazky = config.VYSKA_PREKAZKY
+        vyska_prekazky = random.randint(150, 450)
 
     # Vymazanie obrazovky a vykreslenie pozadia, vtáka a prekážok
     window.blit(pozadie, (0, 0))
