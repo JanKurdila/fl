@@ -29,14 +29,17 @@ farba_prekazky = config.FARBA_PREKAZKY
 zmena_xovej_suradnice_prekazky = config.ZMENA_XOVEJ_SURADNICE_PREKAZKY
 pociatocna_suradnica_prekazky = config.ROZLISENIE[0]
 
-# Funkcia na vykreslenie prekážok
-def display_obstacle(obstacle_x, height):
-    pygame.draw.rect(window, farba_prekazky, (obstacle_x, 0, sirka_prekazky, height))
-    bottom_obstacle_height = config.ROZLISENIE[1] - height - 150
-    pygame.draw.rect(window, farba_prekazky, (obstacle_x, config.ROZLISENIE[1], sirka_prekazky, -bottom_obstacle_height))
+# Konštantná diera medzi prekážkami
+diera = config.DIERA
 
-# Generovanie počiatočnej prekážky
-vyska_prekazky = random.randint(150, 450)
+# Funkcia na vykreslenie prekážok
+def display_obstacles(obstacle_x, height):
+    pygame.draw.rect(window, farba_prekazky, (obstacle_x, 0, sirka_prekazky, height))
+    bottom_obstacle_height = config.ROZLISENIE[1] - height - diera
+    pygame.draw.rect(window, farba_prekazky, (obstacle_x, config.ROZLISENIE[1] - bottom_obstacle_height, sirka_prekazky, bottom_obstacle_height))
+
+# Generovanie počiatočnej výšky prekážky
+vyska_prekazky = random.randint(150, config.ROZLISENIE[1] - diera - 150)
 
 # Herná slučka
 while True:
@@ -57,12 +60,12 @@ while True:
     pociatocna_suradnica_prekazky += zmena_xovej_suradnice_prekazky
     if pociatocna_suradnica_prekazky < -sirka_prekazky:
         pociatocna_suradnica_prekazky = config.ROZLISENIE[0]
-        vyska_prekazky = random.randint(150, 450)
+        vyska_prekazky = random.randint(150, config.ROZLISENIE[1] - diera - 150)
 
     # Vymazanie obrazovky a vykreslenie pozadia, vtáka a prekážok
     window.blit(pozadie, (0, 0))
     window.blit(vtak, vtak_rect)
-    display_obstacle(pociatocna_suradnica_prekazky, vyska_prekazky)
+    display_obstacles(pociatocna_suradnica_prekazky, vyska_prekazky)
 
     # Aktualizácia displeja
     pygame.display.update()
