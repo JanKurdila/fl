@@ -51,6 +51,14 @@ diera = config.DIERA
 # Generovanie počiatočnej výšky prekážky
 vyska_prekazky = random.randint(150, config.ROZLISENIE[1] - diera - 150)
 
+
+# Skóre
+skore = 0
+font = config.FONT
+
+# Premenná na sledovanie, či vták preletel prekážku
+prekazka_preletena = False
+
 # Herná slučka
 while True:
     # Spracovanie udalostí
@@ -74,11 +82,24 @@ while True:
         vtak_rect.y = config.ROZLISENIE[1] - vtak_rect.height
         rychlost_vtaka = 0
 
+    # Zvýšenie skóre, ak vták preletí bez kolízie prekážky
+    if pociatocna_suradnica_prekazky + sirka_prekazky < vtak_rect.x and not prekazka_preletena:
+        skore += 1
+        prekazka_preletena = True
+    elif pociatocna_suradnica_prekazky + sirka_prekazky >= vtak_rect.x:
+        prekazka_preletena = False
+
     # Pohyb prekážky
     pociatocna_suradnica_prekazky += zmena_xovej_suradnice_prekazky
     if pociatocna_suradnica_prekazky < -sirka_prekazky:
         pociatocna_suradnica_prekazky = config.ROZLISENIE[0]
         vyska_prekazky = random.randint(150, config.ROZLISENIE[1] - diera - 150)
+
+    if pociatocna_suradnica_prekazky < -sirka_prekazky:
+        pociatocna_suradnica_prekazky = config.ROZLISENIE[0]
+        vyska_prekazky = random.randint(150, config.ROZLISENIE[1] - diera - 150)
+           
+
 
     # Kontrola kolízie vtáka s prekážkami
     if vtak_rect.colliderect(pygame.Rect(pociatocna_suradnica_prekazky, 0, sirka_prekazky, vyska_prekazky)) or vtak_rect.colliderect(pygame.Rect(pociatocna_suradnica_prekazky, config.ROZLISENIE[1] - (config.ROZLISENIE[1] - vyska_prekazky - diera), sirka_prekazky, config.ROZLISENIE[1] - vyska_prekazky - diera)):
@@ -90,8 +111,13 @@ while True:
     window.blit(vtak, vtak_rect)
     display_obstacles(pociatocna_suradnica_prekazky, vyska_prekazky)
 
+    # Zobrazenie skóre
+    text = font.render("Score: " + str(skore), True, (255, 255, 255))
+    window.blit(text, (10, 10))
+
     # Aktualizácia displeja
     pygame.display.update()
 
     # Spomalenie cyklu
     clock.tick(config.FPS)
+

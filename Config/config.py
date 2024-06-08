@@ -19,7 +19,7 @@ FARBA_PREKAZKY = pygame.Color(211, 253, 117)
 ZMENA_XOVEJ_SURADNICE_PREKAZKY = -4
 
 STEP = -10
-DIERA = 130
+DIERA = 180
 
 pygame.init()
 FONT = pygame.font.Font(None, 74)
